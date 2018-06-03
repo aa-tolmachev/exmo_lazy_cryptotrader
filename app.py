@@ -22,7 +22,7 @@ def hello():
 #запись информации по exmo.ticker в нашу бд exmo_info.ticker
 @application.route("/get_ticker")  
 def get_ticker():
-    exmo_get_ticker( key=exmo_key, secret = exmo_sec)
+    get_exmo_info.exmo_get_ticker( key=exmo_key, secret = exmo_sec)
     return "200"
 
 #тест крона
