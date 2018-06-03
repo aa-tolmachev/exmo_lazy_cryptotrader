@@ -22,7 +22,7 @@ def hello():
 #запись информации по exmo.ticker в нашу бд exmo_info.ticker
 @application.route("/get_ticker")  
 def get_ticker():
-    psql_methods.exmo_get_ticker( key=exmo_key, secret = exmo_sec)
+    exmo_get_ticker( key=exmo_key, secret = exmo_sec)
     return "200"
 
 #тест крона
@@ -42,8 +42,5 @@ if __name__ == "__main__":
     port = int(os.getenv('PORT', 5000))
     exmo_key = os.getenv('exmo_key')
     exmo_sec = os.getenv('exmo_sec')
-
-
-    get_exmo_info.exmo_get_ticker( key=exmo_key, secret = exmo_sec)
     application.run(debug=False, port=port, host='0.0.0.0')
 
