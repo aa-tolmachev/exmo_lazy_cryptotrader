@@ -274,6 +274,14 @@ def exmo_get_ticker(PSQL_heroku_keys = PSQL_heroku_keys , pair = 'ETH_USD', key=
     #создаем запись в exmo_info.ticker
     cur.execute(sql_ticker)
     conn.commit()
+    sleep(0.1)
+    #создаем sql иньекцию
+    sql_ticker = make_sql_ticker_insert(ticker= ticker, pair = 'XRP_USD')
+    #создаем запись в exmo_info.ticker
+    cur.execute(sql_ticker)
+    conn.commit()
+
+
 
     cur.close()
     #закрываем подключение
@@ -334,6 +342,22 @@ def exmo_get_ticker(PSQL_heroku_keys = PSQL_heroku_keys , pair = 'ETH_USD', key=
     cur.execute(sql_order_book)
     conn.commit()
     sleep(0.1)
+
+    #получаем информацию по order_book
+    params = { "pair" :"XRP_USD",
+          "limit" : 1000
+         }
+    ExmoAPI_instance = ExmoAPI(key, secret)
+    order_book = ExmoAPI_instance.api_query('order_book', params )
+    ExmoAPI_instance = None
+    #создаем sql иньекцию
+    sql_order_book = make_sql_order_book_insert(order_book = order_book, pair = 'XRP_USD')
+    #создаем запись в exmo_info.ticker
+    cur.execute(sql_order_book)
+    conn.commit()
+    sleep(0.1)
+
+
 
 
 
