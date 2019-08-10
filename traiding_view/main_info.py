@@ -138,30 +138,30 @@ def get_tv_main():
 	    cur = conn.cursor()
 		
 		for i , row in traiding_view_main_info.iterrows():
-		    insert_dict = dict(row)
+			insert_dict = dict(row)
 
-		    par_name = insert_dict['par_name']
-		    rating = insert_dict['rating']
-		    prc_change = insert_dict['prc_change']
-		    abs_change = insert_dict['abs_change']
-		    high_change = insert_dict['high_change']
-		    low_change = insert_dict['low_change']
+			par_name = insert_dict['par_name']
+			rating = insert_dict['rating']
+			prc_change = insert_dict['prc_change']
+			abs_change = insert_dict['abs_change']
+			high_change = insert_dict['high_change']
+			low_change = insert_dict['low_change']
 
 
 
 
 
 	        #создаем sql иньекцию
-	        sql_tv = ''.join([
+	    	sql_tv = ''.join([
 
             "insert into exmo_info.traiding_view_main (par_name , check_at , rating , prc_change , abs_change , high_change ,low_change) ",
             "VALUES ('",par_name,"','",check_at,"','",rating,"',",str(prc_change),",",str(abs_change),",",str(high_change),",",str(low_change),")"
     		])
 
 	        #создаем запись в exmo_info.ticker
-	        cur.execute(sql_tv)
-	        conn.commit()
-	        sleep(0.1)
+	    	cur.execute(sql_tv)
+	    	conn.commit()
+	    	sleep(0.1)
 
 
 	    cur.close()
