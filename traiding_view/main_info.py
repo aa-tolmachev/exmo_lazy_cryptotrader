@@ -153,7 +153,7 @@ def get_tv_main():
 
                 "insert into exmo_info.traiding_view_main (par_name , check_at , rating , prc_change , abs_change , high_change ,low_change) ",
                 "VALUES ('",par_name,"','",check_at,"','",rating,"',",str(prc_change),",",str(abs_change),",",str(high_change),",",str(low_change),")"
-
+        		])
 
 		        #создаем запись в exmo_info.ticker
 		        cur.execute(sql_tv)
