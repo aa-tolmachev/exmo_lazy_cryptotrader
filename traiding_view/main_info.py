@@ -130,6 +130,13 @@ def get_tv_main():
 
 
 	if traiding_view_main_info.shape[0] > 0:
+
+	    #создаем подключение к PSQL
+	    conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
+
+	    # создаем запрос
+	    cur = conn.cursor()
+		
 		for i , row in traiding_view_main_info.iterrows():
 		    insert_dict = dict(row)
 
@@ -141,29 +148,25 @@ def get_tv_main():
 		    low_change = insert_dict['low_change']
 
 
-		    #создаем подключение к PSQL
-		    conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
-
-		    # создаем запрос
-		    cur = conn.cursor()
-
-		    for coin in interest_coins:
-		        #создаем sql иньекцию
-		        sql_tv = ''.join([
-
-                "insert into exmo_info.traiding_view_main (par_name , check_at , rating , prc_change , abs_change , high_change ,low_change) ",
-                "VALUES ('",par_name,"','",check_at,"','",rating,"',",str(prc_change),",",str(abs_change),",",str(high_change),",",str(low_change),")"
-        		])
-
-		        #создаем запись в exmo_info.ticker
-		        cur.execute(sql_tv)
-		        conn.commit()
-		        sleep(0.1)
 
 
-		    cur.close()
-		    #закрываем подключение
-		    conn.close()
+
+	        #создаем sql иньекцию
+	        sql_tv = ''.join([
+
+            "insert into exmo_info.traiding_view_main (par_name , check_at , rating , prc_change , abs_change , high_change ,low_change) ",
+            "VALUES ('",par_name,"','",check_at,"','",rating,"',",str(prc_change),",",str(abs_change),",",str(high_change),",",str(low_change),")"
+    		])
+
+	        #создаем запись в exmo_info.ticker
+	        cur.execute(sql_tv)
+	        conn.commit()
+	        sleep(0.1)
+
+
+	    cur.close()
+	    #закрываем подключение
+	    conn.close()
 
 		    
 	return 200
