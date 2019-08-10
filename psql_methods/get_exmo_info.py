@@ -244,6 +244,9 @@ def make_sql_order_book_insert(order_book = None, pair = None):
 
 #получаем данные дпо ticker
 def exmo_get_ticker(PSQL_heroku_keys = PSQL_heroku_keys , pair = 'ETH_USD', key=None, secret = None):
+    
+    interest_coins = ['ETH_USD' , 'EOS_USD' , 'LTC_USD' , 'XRP_USD']
+
     ###################
 
     # получаем информацию по тикеру
@@ -257,30 +260,13 @@ def exmo_get_ticker(PSQL_heroku_keys = PSQL_heroku_keys , pair = 'ETH_USD', key=
     # создаем запрос
     cur = conn.cursor()
 
-    #создаем sql иньекцию
-    sql_ticker = make_sql_ticker_insert(ticker= ticker, pair = 'ETH_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_ticker)
-    conn.commit()
-    sleep(0.1)
-    #создаем sql иньекцию
-    sql_ticker = make_sql_ticker_insert(ticker= ticker, pair = 'EOS_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_ticker)
-    conn.commit()
-    sleep(0.1)
-    #создаем sql иньекцию
-    sql_ticker = make_sql_ticker_insert(ticker= ticker, pair = 'LTC_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_ticker)
-    conn.commit()
-    sleep(0.1)
-    #создаем sql иньекцию
-    sql_ticker = make_sql_ticker_insert(ticker= ticker, pair = 'XRP_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_ticker)
-    conn.commit()
-
+    for coin in interest_coins:
+        #создаем sql иньекцию
+        sql_ticker = make_sql_ticker_insert(ticker= ticker, pair = coin)
+        #создаем запись в exmo_info.ticker
+        cur.execute(sql_ticker)
+        conn.commit()
+        sleep(0.1)
 
 
     cur.close()
@@ -290,72 +276,28 @@ def exmo_get_ticker(PSQL_heroku_keys = PSQL_heroku_keys , pair = 'ETH_USD', key=
 
 
     ###############
-
-    #получаем информацию по order_book
-    params = { "pair" :"ETH_USD",
-          "limit" : 1000
-         }
-    ExmoAPI_instance = ExmoAPI(key, secret)
-    order_book = ExmoAPI_instance.api_query('order_book', params )
-    ExmoAPI_instance = None
-
-
-    #создаем подключение к PSQL
-    conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
-
-    # создаем запрос
-    cur = conn.cursor()
-
-    #создаем sql иньекцию
-    sql_order_book = make_sql_order_book_insert(order_book = order_book, pair = 'ETH_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_order_book)
-    conn.commit()
-    sleep(0.1)
+    for coin in interest_coins:
+        #получаем информацию по order_book
+        params = { "pair" :coin,
+              "limit" : 1000
+             }
+        ExmoAPI_instance = ExmoAPI(key, secret)
+        order_book = ExmoAPI_instance.api_query('order_book', params )
+        ExmoAPI_instance = None
 
 
-    #получаем информацию по order_book
-    params = { "pair" :"EOS_USD",
-          "limit" : 1000
-         }
-    ExmoAPI_instance = ExmoAPI(key, secret)
-    order_book = ExmoAPI_instance.api_query('order_book', params )
-    ExmoAPI_instance = None
-    #создаем sql иньекцию
-    sql_order_book = make_sql_order_book_insert(order_book = order_book, pair = 'EOS_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_order_book)
-    conn.commit()
-    sleep(0.1)
+        #создаем подключение к PSQL
+        conn = psycopg2.connect("dbname='%(dbname)s' port='%(port)s' user='%(user)s' host='%(host)s' password='%(password)s'" % PSQL_heroku_keys)
 
+        # создаем запрос
+        cur = conn.cursor()
 
-    #получаем информацию по order_book
-    params = { "pair" :"LTC_USD",
-          "limit" : 1000
-         }
-    ExmoAPI_instance = ExmoAPI(key, secret)
-    order_book = ExmoAPI_instance.api_query('order_book', params )
-    ExmoAPI_instance = None
-    #создаем sql иньекцию
-    sql_order_book = make_sql_order_book_insert(order_book = order_book, pair = 'LTC_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_order_book)
-    conn.commit()
-    sleep(0.1)
-
-    #получаем информацию по order_book
-    params = { "pair" :"XRP_USD",
-          "limit" : 1000
-         }
-    ExmoAPI_instance = ExmoAPI(key, secret)
-    order_book = ExmoAPI_instance.api_query('order_book', params )
-    ExmoAPI_instance = None
-    #создаем sql иньекцию
-    sql_order_book = make_sql_order_book_insert(order_book = order_book, pair = 'XRP_USD')
-    #создаем запись в exmo_info.ticker
-    cur.execute(sql_order_book)
-    conn.commit()
-    sleep(0.1)
+        #создаем sql иньекцию
+        sql_order_book = make_sql_order_book_insert(order_book = order_book, pair = coin)
+        #создаем запись в exmo_info.ticker
+        cur.execute(sql_order_book)
+        conn.commit()
+        sleep(0.1)
 
 
 

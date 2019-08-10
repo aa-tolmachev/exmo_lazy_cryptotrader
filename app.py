@@ -9,6 +9,9 @@ import traceback
 
 #наши подготовленные либы
 from psql_methods import get_exmo_info
+from traiding_view import main_info as tv_main_info
+
+
 
 application = Flask(__name__)  # Change assignment here
 
@@ -23,6 +26,9 @@ def hello():
 @application.route("/get_ticker")  
 def get_ticker():
     get_exmo_info.exmo_get_ticker( key=exmo_key, secret = exmo_sec)
+
+    tv_main_info.get_tv_main()
+
     return "200"
 
 #тест крона
@@ -42,5 +48,5 @@ if __name__ == "__main__":
     port = int(os.getenv('PORT', 5000))
     exmo_key = os.getenv('exmo_key')
     exmo_sec = os.getenv('exmo_sec')
-    application.run(debug=False, port=port, host='0.0.0.0')
+    application.run(debug=False, port=port, host='0.0.0.0', threaded=True)
 
