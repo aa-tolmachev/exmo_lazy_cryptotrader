@@ -10,6 +10,7 @@ import traceback
 #наши подготовленные либы
 from psql_methods import get_exmo_info
 from traiding_view import main_info as tv_main_info
+from trader import lazy_trader
 
 
 
