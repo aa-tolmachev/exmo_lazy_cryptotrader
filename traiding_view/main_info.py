@@ -42,7 +42,7 @@ def get_tv_main():
 
     PSQL_heroku_keys = access.PSQL_heroku_keys()
 
-    interest_coins = ['ETHUSDT' , 'LTCUSDT' , 'EOSUSDT' , 'XRPUSDT' , 'AEBTC']
+    interest_coins = ['ETHUSDT' , 'LTCUSDT' , 'EOSUSDT' , 'XRPUSDT' , 'DASHUSDT']
 
     url = 'https://scanner.tradingview.com/crypto/scan'
 

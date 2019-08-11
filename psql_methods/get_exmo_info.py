@@ -245,7 +245,7 @@ def make_sql_order_book_insert(order_book = None, pair = None):
 #получаем данные дпо ticker
 def exmo_get_ticker(PSQL_heroku_keys = PSQL_heroku_keys , pair = 'ETH_USD', key=None, secret = None):
     
-    interest_coins = ['ETH_USD' , 'EOS_USD' , 'LTC_USD' , 'XRP_USD']
+    interest_coins = ['ETH_USD' , 'EOS_USD' , 'LTC_USD' , 'XRP_USD' , 'DASH_USD']
 
     ###################
 
