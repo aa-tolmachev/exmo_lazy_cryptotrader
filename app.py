@@ -30,6 +30,8 @@ def get_ticker():
 
     tv_main_info.get_tv_main()
 
+    lazy_trader.main()
+
     return "200"
 
 #тест крона
